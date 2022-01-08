@@ -63,4 +63,3 @@ public class Object {
 			this.x = this.x - Main.screen.getDx();
 		}
 	}
-}

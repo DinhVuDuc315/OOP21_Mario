@@ -52,3 +52,4 @@ public class Coin extends Object implements Runnable{
 		}	
 	}
 }
+// hello
