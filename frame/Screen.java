@@ -391,3 +391,159 @@ public class Screen extends JPanel{
 		if(this.gameWon() == true || this.gameLose() == true){return true;}
 		else{return false;}
 	}
+
+	
+	public void paintComponent(Graphics g) { 
+		
+		super.paintComponent(g);
+		Graphics g2 = (Graphics2D)g;
+		//Contact object
+
+		for(int i=0; i< this.tabObjects.size();i++){
+			if(this.mario.closeContact(this.tabObjects.get(i))){this.mario.contact(this.tabObjects.get(i));}
+			//Goomba
+			for(int j = 0; j < this.tabGoomba.size(); j++){
+				if(this.tabGoomba.get(j).closeContact(this.tabObjects.get(i))){this.tabGoomba.get(j).contact(this.tabObjects.get(i));} 
+			}
+			//turtle
+			for(int j = 0; j < this.tabTurtle.size(); j++){
+				if(this.tabTurtle.get(j).closeContact(this.tabObjects.get(i))){this.tabTurtle.get(j).contact(this.tabObjects.get(i));} 
+			}
+		}
+
+		for(int i = 0; i < this.tabCoin.size(); i++){
+			if(this.mario.closeContact(this.tabCoin.get(i))){
+				if(this.mario.contactCoin(this.tabCoin.get(i))){
+					Audio.playSound("/sound/coins.wav");
+					this.tabCoin.remove(i);
+					this.score.setNumCoins(this.score.getNumCoins() +1);
+
+				}
+			}
+		}
+		
+		//Contact Character
+		
+		for(int i = 0; i < this.tabGoomba.size(); i++){ 
+			// goombas
+			for(int j = 0; j < this.tabGoomba.size(); j++){
+				if(j != i){ 					 				
+					  if(this.tabGoomba.get(j).closeContact(this.tabGoomba.get(i))){this.tabGoomba.get(j).contact(this.tabGoomba.get(i));}
+				}
+			}
+			// Turtle
+			for(int j = 0; j < this.tabTurtle.size(); j++){
+				if(this.tabTurtle.get(j).closeContact(this.tabGoomba.get(i))){this.tabTurtle.get(j).contact(this.tabGoomba.get(i));}
+			}
+		}
+
+		// Detection of turtle contacts with characters (on mario)
+		for(int i = 0; i < this.tabTurtle.size(); i++){  
+			// Goomba
+			for(int j = 0; j < this.tabGoomba.size(); j++){
+					if(this.tabGoomba.get(j).closeContact(this.tabTurtle.get(i))){this.tabGoomba.get(j).contact(this.tabTurtle.get(i));} 
+			}
+			// Turtle
+			for(int j = 1; j < this.tabTurtle.size(); j++){
+				if(j != i){
+					if(this.tabTurtle.get(j).closeContact(this.tabTurtle.get(i))){this.tabTurtle.get(j).contact(this.tabTurtle.get(i));} 
+				}
+			}
+		}    
+		
+		// Detect mario's contacts with characters
+		//Goomba
+		for(int i = 0; i < this.tabGoomba.size(); i++){ 
+			if(this.mario.closeContact(this.tabGoomba.get(i)) && this.tabGoomba.get(i).isAlive() == true){
+				this.mario.contact(this.tabGoomba.get(i)); 
+				if(this.tabGoomba.get(i).isAlive() == false){Audio.playSound("/sound/destroyEnemy.wav");}
+			}
+		}
+		// Turtle
+		for(int i = 0; i < this.tabTurtle.size(); i++){
+			 if(this.mario.closeContact(this.tabTurtle.get(i)) && this.tabTurtle.get(i).isAlive() == true){
+					this.mario.contact(this.tabTurtle.get(i)); 	 
+					if(this.tabTurtle.get(i).isAlive() == false){Audio.playSound("/sound/destroyEnemy.wav");}		
+			}
+		}
+
+
+		this.displacementFond();
+			if(this.xPos >= 0 && this.xPos <= 5200){
+				for(int i =0; i < this.tabObjects.size(); i++){
+					this.tabObjects.get(i).displacement();
+				}
+				for(int i =0; i < this.tabCoin.size(); i++){
+					this.tabCoin.get(i).displacement();
+				}
+				for(int i =0; i < this.tabGoomba.size(); i++){
+					this.tabGoomba.get(i).displacement();
+				}
+				for(int i =0; i < this.tabTurtle.size(); i++){
+					this.tabTurtle.get(i).displacement();
+				}
+		}
+
+		g2.drawImage(this.imgBackGound1, this.xBackGround1, 0, null);
+		g2.drawImage(this.imgBackGound2, this.xBackGround2, 0, null);
+ 		g2.drawImage(this.imgCastle1, 10 - this.xPos, 95, null);
+ 		g2.drawImage(this.imgPanel, 220 - this.xPos, 234, null);
+		g2.drawImage(imgflag, 4650 - this.xPos, 115, null);
+		g2.drawImage(imgFortress, 5000 - this.xPos, 145, null);
+ 		//Image Objects
+		for(int i=0; i<this.tabObjects.size(); i++){
+			g2.drawImage(this.tabObjects.get(i).getImgObject(), this.tabObjects.get(i).getX(), this.tabObjects.get(i).getY(), null);
+ 		
+		}
+		//Image Coin
+		for(int i=0; i<this.tabCoin.size(); i++){
+			g2.drawImage(this.tabCoin.get(i).move(), this.tabCoin.get(i).getX(), this.tabCoin.get(i).getY(), null);
+ 		
+		}
+		//
+		
+		//Image Mario
+		if(this.mario.isAlive() == true){
+
+			if(this.mario.isJump()){g2.drawImage(this.mario.jump(), this.mario.getX(), this.mario.getY(), null);}
+ 		else{g2.drawImage(this.mario.walking("mario", 25), this.mario.getX(), this.mario.getY(), null);}	
+
+		}else{g2.drawImage(this.mario.death(), this.mario.getX(), this.mario.getY(), null);}
+
+
+ 		
+	
+		 // Images Goomba
+		for(int i = 0; i < this.tabGoomba.size(); i++){
+			if(this.tabGoomba.get(i).isAlive() == true){
+				g2.drawImage(this.tabGoomba.get(i).walking("goomba", 45), this.tabGoomba.get(i).getX(), this.tabGoomba.get(i).getY(), null);
+			}else{
+				g2.drawImage(this.tabGoomba.get(i).fainted(), this.tabGoomba.get(i).getX(), this.tabGoomba.get(i).getY() + 20, null); 								
+			}
+		}
+			
+		// Images Turtle
+	    for(int i = 0; i < this.tabTurtle.size(); i++){
+			if(this.tabTurtle.get(i).isAlive() == true){
+				g2.drawImage(this.tabTurtle.get(i).walking("turtle", 50), this.tabTurtle.get(i).getX(), this.tabTurtle.get(i).getY(), null);
+			}else{
+				g2.drawImage(this.tabTurtle.get(i).fainted(), this.tabTurtle.get(i).getX(), this.tabTurtle.get(i).getY() + 30, null);				
+			}
+		}  
+		g2.setFont(police);
+	    g2.drawString(this.score.getNumCoins() + " coins of " + this.score.getNUM_TOTAL_COINS(), 460, 25);
+	    g2.drawString(this.timeCountdown.getStr(), 5, 25);
+
+		  
+	    // Fin de partie
+	    if(this.GameOver() == true){
+	    	Font policeFin = new Font("Arial", Font.BOLD, 50);
+            g2.setFont(policeFin);
+	        if(this.gameWon() == true){g2.drawString("Congratulation !!", 120, 180);}
+	        else{g2.drawString("Game Over...", 120, 180);}
+ 	    }
+
+
+
+	}
+}
