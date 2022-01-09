@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 
 public class Main {
-public static Screen sreen;
+public static Screen screen;
 
 
 	public static void main(String[] args) { 
@@ -17,9 +17,9 @@ public static Screen sreen;
 		frame.setAlwaysOnTop(true);
 		
 	
-		sreen = new Screen();
+		screen = new Screen();
 				
-		frame.setContentPane(sreen); 
+		frame.setContentPane(screen); 
 		frame.setVisible(true);		
 	}
 }

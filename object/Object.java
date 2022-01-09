@@ -59,7 +59,7 @@ public class Object {
 	
 	//**** METHODES ****//	
 	public void displacement(){
-		if(Main.Screen.getxPos() >= 0){
-			this.x = this.x - Main.Screen.getDx();
+		if(Main.screen.getxPos() >= 0){
+			this.x = this.x - Main.screen.getDx();
 		}
 	}
