@@ -9,7 +9,7 @@ public static Screen screen;
 
 	public static void main(String[] args) { 
 		// initial the Window Of the game 
-		JFrame frame = new JFrame("Mario Game Project Demo Final");
+		JFrame frame = new JFrame("Game Mario");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(700, 360);
 		frame.setLocationRelativeTo(null);
