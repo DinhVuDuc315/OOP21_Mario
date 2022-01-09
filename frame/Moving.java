@@ -12,7 +12,7 @@ public class Moving implements Runnable{
 	public void run() {
 
 		while(true){ 			
-			Main.sreen.repaint(); 
+			Main.screen.repaint(); 
 			try {Thread.sleep(PAUSE);} // repaint the window of the game after 3milisecond
 			catch (InterruptedException e) {}
 		}

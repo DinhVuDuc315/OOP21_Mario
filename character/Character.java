@@ -94,7 +94,7 @@ public class Character {
 	}
     
 	public void displacement(){		
-		if(Main.sreen.getxPos() >= 0){this.x = this.x - Main.sreen.getDx();}
+		if(Main.screen.getxPos() >= 0){this.x = this.x - Main.screen.getDx();}
 	}
 	
     // collision of right hand side of the mario

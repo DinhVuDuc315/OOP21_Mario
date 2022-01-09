@@ -47,7 +47,7 @@ public class Mario extends Character{
 		ImageIcon icon;
 		Image image;
 		
-		if(this.walking == false || Main.sreen.getxPos() <= 0 || Main.sreen.getxPos() > 5200){
+		if(this.walking == false || Main.screen.getxPos() <= 0 || Main.screen.getxPos() > 5200){
 			if(this.turnRight == true){string = "/images/" + name + "TurnRight1.png";}
 			else{string = "/images/" + name + "TurnLeft1.png";}
 		}else{
@@ -77,13 +77,13 @@ public class Mario extends Character{
 	
 		this.counterJump++;	
 		if(this.counterJump <= 40){
-			if(this.getY() > Main.sreen.getHeightOfWindow()){this.setY(this.getY() - 4);}
+			if(this.getY() > Main.screen.getHeightOfWindow()){this.setY(this.getY() - 4);}
 			else{this.counterJump = 41;}			
 			if(this.isTurnRight() == true){string = "/images/marioJumpRight.png";}
 			else{string = "/images/marioJumpLeft.png";}	
 			
 		
-		}else if(this.getY() + this.getHeight() < Main.sreen.getySol()){this.setY(this.getY() + 1);
+		}else if(this.getY() + this.getHeight() < Main.screen.getySol()){this.setY(this.getY() + 1);
 			if(this.isTurnRight() == true){string = "/images/marioJumpRight.png";}
 			else{string = "/images/marioJumpLeft.png";}
 			
@@ -102,21 +102,21 @@ public class Mario extends Character{
 	public void contact(Object object) {
 		// contact horizontal window of the game 
 		if((super.contactRight(object) == true && this.isTurnRight() == true) || (super.contactLeft(object) == true && this.isTurnRight() == false)){
-			Main.sreen.setDx(0);
+			Main.screen.setDx(0);
 		    this.setWalking(false);
 		}
 		// contact with object under the mario
         if(super.contactUnder(object) == true && this.jump == true){ // when the mario jump over the object
-			Main.sreen.setySol(object.getY());			
+			Main.screen.setySol(object.getY());			
 		}else if(super.contactUnder(object) == false){ // fall into the ground
-			Main.sreen.setySol(293); //initial height of the ground
+			Main.screen.setySol(293); //initial height of the ground
 			if(this.jump == false){this.setY(243);} // initial position of the mario 
 		}
         // contact with the object overhead of the mario
         if(super.contactOver(object) == true){
-			Main.sreen.setHeightOfWindow(object.getY() + object.getHeight()); //
+			Main.screen.setHeightOfWindow(object.getY() + object.getHeight()); //
 		}else if(super.contactOver(object) == false && this.jump == false){
-			Main.sreen.setHeightOfWindow(0);// 
+			Main.screen.setHeightOfWindow(0);// 
 		}     
 	}
 	public boolean contactCoin(Coin coin){
